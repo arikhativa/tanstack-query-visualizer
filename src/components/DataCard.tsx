@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { Label } from "./ui/label";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { cn } from "@/lib/utils";
+import { Separator } from "./ui/separator";
 
 interface Props<T> {
   query: UseQueryResult<T, Error>;
@@ -28,13 +29,15 @@ export function DataCard<T>({ keys, label, comp, query }: Props<T>) {
     return (
       <Card
         className={cn(
-          "w-fit transition-colors duration-200",
+          "transition-colors duration-200",
           highlight && "bg-primary/10"
         )}
       >
-        <CardHeader className="w-full text-nowrap">
-          keys: [{keys.join(", ")}]
+        <CardHeader>
+          <p>keys:</p>
+          <p>[{keys.join(", ")}]</p>
         </CardHeader>
+        <Separator />
         <CardContent>
           <Label>{label}</Label>
           {comp(query.data)}

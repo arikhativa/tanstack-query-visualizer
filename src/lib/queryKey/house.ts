@@ -7,6 +7,11 @@ const houseData: House[] = [
     address: "main street",
     residentIdList: [],
   },
+  {
+    id: "H2",
+    address: "lean round",
+    residentIdList: [],
+  },
 ];
 
 export const house = createQueryKeys("house", {
