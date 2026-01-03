@@ -1,5 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { queries } from "@/lib/queryKey";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
 export function MutationList() {
-  return <Button>Create Book</Button>;
+  const queryClient = useQueryClient();
+
+  const onClick = useCallback(() => {
+    queryClient.invalidateQueries({
+      queryKey: queries.house.detail._def,
+    });
+  }, [queryClient]);
+
+  return <Button onClick={onClick}>Create Book</Button>;
 }

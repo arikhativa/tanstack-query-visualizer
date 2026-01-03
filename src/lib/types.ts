@@ -1,0 +1,5 @@
+export interface House {
+  id: string;
+  address: string;
+  residentIdList: string[];
+}
