@@ -31,6 +31,14 @@ export function MutationList() {
       <SingleMutation
         queryKey={
           queries.house.list({
+            page: 0,
+            limit: 4,
+          }).queryKey
+        }
+      />
+      <SingleMutation
+        queryKey={
+          queries.house.list({
             filters: { byResidentIdList: ["R1"] },
           }).queryKey
         }
@@ -38,8 +46,7 @@ export function MutationList() {
       <SingleMutation
         queryKey={
           queries.house.list({
-            page: 0,
-            limit: 4,
+            filters: { byResidentIdList: ["R2"] },
           }).queryKey
         }
       />
