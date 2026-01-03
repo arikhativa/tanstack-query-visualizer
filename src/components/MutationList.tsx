@@ -22,15 +22,27 @@ function SingleMutation({ queryKey }: SingleMutationProps) {
 }
 
 export function MutationList() {
-  // const queryClient = useQueryClient();
-
   return (
     <>
       <SingleMutation queryKey={queries.house._def} />
       <SingleMutation queryKey={queries.house.detail._def} />
       <SingleMutation queryKey={queries.house.detail("H2").queryKey} />
       <SingleMutation queryKey={queries.house.list._def} />
-      {/* <Button onClick={houseDetailClick}>[{houseDetail.join(", ")}]</Button> */}
+      <SingleMutation
+        queryKey={
+          queries.house.list({
+            filters: { byResidentIdList: ["R1"] },
+          }).queryKey
+        }
+      />
+      <SingleMutation
+        queryKey={
+          queries.house.list({
+            page: 0,
+            limit: 4,
+          }).queryKey
+        }
+      />
     </>
   );
 }

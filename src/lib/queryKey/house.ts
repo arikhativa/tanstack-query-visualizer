@@ -61,14 +61,21 @@ export const house = createQueryKeys("house", {
       throw new Error("404");
     },
   }),
-  list: ({ filters, page, limit }: ListParams = {}) => ({
-    queryKey: [filters, page, limit],
-    queryFn: () => getData({ filters, page, limit }),
+  list: (params: ListParams = {}) => ({
+    queryKey: getListKeys(params),
+    queryFn: () => getData(params),
     contextQueries: {
       count: {
         queryKey: null,
-        queryFn: () => getData({ filters, page, limit }).length,
+        queryFn: () => getData(params).length,
       },
     },
   }),
 });
+
+function getListKeys({ filters, page, limit }: ListParams) {
+  if (page !== undefined && limit !== undefined) {
+    return [filters, { page, limit }] as const;
+  }
+  return [filters] as const;
+}

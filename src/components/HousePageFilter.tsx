@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { HousePageComponent } from "./HousePageComponent";
 
 export function HousePageFilter({ className }: { className?: string }) {
+  // const queryMeta = queries.house.list({ byResidentIdList: ["R1"] }, 0, 4);
   const queryMeta = queries.house.list({
     filters: { byResidentIdList: ["R1"] },
     page: 0,

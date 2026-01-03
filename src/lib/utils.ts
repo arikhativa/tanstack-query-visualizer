@@ -7,21 +7,31 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function toStringTQueryKeys(keys: TQueryKeys): string {
-  const ret = keys
-    .map((key) => {
-      if (key === undefined) {
-        return "";
-      }
-      if (typeof key === "string" || typeof key === "number") {
-        return String(key);
-      }
-      if (typeof key === "object" && key !== null) {
-        return JSON.stringify(key);
-      }
-      return "";
-    })
-    .filter(Boolean)
-    .join(", ");
+  const ret = keys.map((key) => stringifyKeyPart(key)).join(", ");
 
   return `[${ret}]`;
+}
+
+function stringifyKeyPart(value: unknown): string {
+  if (value === undefined) return "undefined";
+  if (value === null) return "null";
+
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return String(value);
+  }
+
+  if (value instanceof Date) {
+    return `Date(${value.toISOString()})`;
+  }
+
+  // arrays & objects
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return "[Unserializable]";
+  }
 }

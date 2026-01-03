@@ -17,7 +17,7 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <main className="h-screen flex flex-col ">
-        <header className="flex justify-start items-center p-4 gap-4 h-20 bg-green-700/20">
+        <header className="flex flex-wrap justify-start items-center p-4 gap-4 h-fit bg-green-700/20">
           <MutationList />
         </header>
         <section className="flex-1 flex gap-4 p-4">

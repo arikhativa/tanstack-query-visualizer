@@ -5,7 +5,7 @@ import { HousePageFilter } from "./HousePageFilter";
 
 export function DataList() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <div className="flex-1 flex gap-4 h-fit">
         <HouseDetail className="flex-1" id={"H1"} />
         <HouseDetail className="flex-1" id={"H2"} />

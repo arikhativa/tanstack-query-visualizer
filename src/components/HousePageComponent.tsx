@@ -4,7 +4,7 @@ export function HousePageComponent(list: House[]) {
   return (
     <>
       {list.map((e) => (
-        <div className="">
+        <div key={e.id} className="">
           <p>id: {e.id}</p>
         </div>
       ))}
