@@ -23,4 +23,8 @@ export const house = createQueryKeys("house", {
       throw new Error("404");
     },
   }),
+  list: () => ({
+    queryKey: [""],
+    queryFn: () => houseData,
+  }),
 });

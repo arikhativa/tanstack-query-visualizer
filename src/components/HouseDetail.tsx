@@ -13,6 +13,6 @@ export function HouseDetail({ id }: { id: string }) {
       keys={queryMeta.queryKey}
       label={"HouseDetail"}
       comp={HouseContent}
-    ></DataCard>
+    />
   );
 }

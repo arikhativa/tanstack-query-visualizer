@@ -27,6 +27,7 @@ export function MutationList() {
       <SingleMutation queryKey={queries.house._def} />
       <SingleMutation queryKey={queries.house.detail._def} />
       <SingleMutation queryKey={queries.house.detail("H2").queryKey} />
+      <SingleMutation queryKey={queries.house.list().queryKey} />
       {/* <Button onClick={houseDetailClick}>[{houseDetail.join(", ")}]</Button> */}
     </>
   );
