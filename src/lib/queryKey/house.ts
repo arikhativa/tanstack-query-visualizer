@@ -1,23 +1,43 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 import type { House } from "../types";
 
-export const houseData: House[] = Array.from({ length: 50 }, (_, i) => ({
-  id: `H${i + 1}`,
-  address: `${i + 1} Main Street`,
-  residentIdList: [],
-}));
+const houseData: House[] = Array.from({ length: 50 }, (_, i) => {
+  const residentIds = ["R1", "R2", "R3"];
+  const residentIdList: string[] = [];
 
+  if (i % 4 === 0) {
+    residentIdList.push(
+      residentIds[Math.floor(Math.random() * residentIds.length)]
+    );
+    if (Math.random() > 0.5) {
+      residentIdList.push(
+        residentIds[Math.floor(Math.random() * residentIds.length)]
+      );
+    }
+    if (Math.random() > 0.7) {
+      residentIdList.push(
+        residentIds[Math.floor(Math.random() * residentIds.length)]
+      );
+    }
+  }
+
+  return {
+    id: `H${i + 1}`,
+    address: `${i + 1} Main Street`,
+    residentIdList,
+  };
+});
 interface Filters {
   byResidentIdList?: string[];
 }
 
-interface getDataParams {
+interface ListParams {
   filters?: Filters;
   page?: number;
   limit?: number;
 }
 
-function getData({ filters, page, limit }: getDataParams): House[] {
+function getData({ filters, page, limit }: ListParams): House[] {
   let filtered = houseData;
 
   if (filters?.byResidentIdList && filters.byResidentIdList.length > 0) {
@@ -25,7 +45,7 @@ function getData({ filters, page, limit }: getDataParams): House[] {
       filters.byResidentIdList!.some((id) => house.residentIdList.includes(id))
     );
   }
-  if (limit && page) {
+  if (limit !== undefined && page !== undefined) {
     const start = page * limit;
     return filtered.slice(start, start + limit);
   }
@@ -41,8 +61,8 @@ export const house = createQueryKeys("house", {
       throw new Error("404");
     },
   }),
-  list: (filters?: Filters, page?: number, limit?: number) => ({
-    queryKey: [{ filters }, page, limit],
+  list: ({ filters, page, limit }: ListParams = {}) => ({
+    queryKey: [filters, page, limit],
     queryFn: () => getData({ filters, page, limit }),
     contextQueries: {
       count: {
