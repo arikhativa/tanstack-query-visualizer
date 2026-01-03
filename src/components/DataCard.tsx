@@ -7,7 +7,7 @@ import { Separator } from "./ui/separator";
 
 interface Props<T> {
   query: UseQueryResult<T, Error>;
-  keys: readonly string[];
+  keys: readonly (string | number)[];
   label: string;
   comp: (props: T) => JSX.Element;
 }

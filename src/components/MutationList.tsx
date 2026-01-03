@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 interface SingleMutationProps {
-  queryKey: readonly string[];
+  queryKey: readonly (string | number)[];
 }
 
 function SingleMutation({ queryKey }: SingleMutationProps) {
