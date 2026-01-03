@@ -10,7 +10,6 @@ const houseData: House[] = [
 ];
 
 export const house = createQueryKeys("house", {
-  all: null,
   detail: (id: string) => ({
     queryKey: [id],
     queryFn: () => {

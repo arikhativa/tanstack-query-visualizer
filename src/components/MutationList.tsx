@@ -3,14 +3,31 @@ import { queries } from "@/lib/queryKey";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
-export function MutationList() {
+interface SingleMutationProps {
+  queryKey: readonly string[];
+}
+
+function SingleMutation({ queryKey }: SingleMutationProps) {
   const queryClient = useQueryClient();
 
   const onClick = useCallback(() => {
     queryClient.invalidateQueries({
-      queryKey: queries.house.detail._def,
+      queryKey,
     });
   }, [queryClient]);
 
-  return <Button onClick={onClick}>Create Book</Button>;
+  return <Button onClick={onClick}>[{queryKey.join(", ")}]</Button>;
+}
+
+export function MutationList() {
+  // const queryClient = useQueryClient();
+
+  return (
+    <>
+      <SingleMutation queryKey={queries.house._def} />
+      <SingleMutation queryKey={queries.house.detail._def} />
+      <SingleMutation queryKey={queries.house.detail("H2").queryKey} />
+      {/* <Button onClick={houseDetailClick}>[{houseDetail.join(", ")}]</Button> */}
+    </>
+  );
 }
