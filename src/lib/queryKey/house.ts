@@ -3,19 +3,21 @@ import type { House } from "../types";
 
 const houseData: House[] = Array.from({ length: 50 }, (_, i) => {
   const residentIds = ["R1", "R2", "R3"];
-  const residentIdList: string[] = [];
+  const residentIdSet = new Set<string>();
 
   if (i % 4 === 0) {
-    residentIdList.push(
+    residentIdSet.add(
       residentIds[Math.floor(Math.random() * residentIds.length)]
     );
+
     if (Math.random() > 0.5) {
-      residentIdList.push(
+      residentIdSet.add(
         residentIds[Math.floor(Math.random() * residentIds.length)]
       );
     }
+
     if (Math.random() > 0.7) {
-      residentIdList.push(
+      residentIdSet.add(
         residentIds[Math.floor(Math.random() * residentIds.length)]
       );
     }
@@ -24,9 +26,10 @@ const houseData: House[] = Array.from({ length: 50 }, (_, i) => {
   return {
     id: `H${i + 1}`,
     address: `${i + 1} Main Street`,
-    residentIdList,
+    residentIdList: Array.from(residentIdSet),
   };
 });
+
 interface Filters {
   byResidentIdList?: string[];
 }

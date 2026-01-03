@@ -1,6 +1,11 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { Label } from "./ui/label";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { cn, toStringTQueryKeys } from "@/lib/utils";
 import { Separator } from "./ui/separator";
@@ -37,14 +42,11 @@ export function DataCard<T>({ className, keys, label, comp, query }: Props<T>) {
         )}
       >
         <CardHeader>
-          <p>keys:</p>
-          <p>{toStringTQueryKeys(keys)}</p>
+          <CardTitle>{label}</CardTitle>
         </CardHeader>
         <Separator />
-        <CardContent>
-          <Label>{label}</Label>
-          {comp(query.data)}
-        </CardContent>
+        <CardContent className="flex-1">{comp(query.data)}</CardContent>
+        <CardFooter>{toStringTQueryKeys(keys)}</CardFooter>
       </Card>
     );
   }

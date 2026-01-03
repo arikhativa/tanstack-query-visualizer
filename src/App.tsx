@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <main className="h-screen flex flex-col ">
+      <main className="flex flex-col ">
         <header className="flex flex-wrap justify-start items-center p-4 gap-4 h-fit bg-green-700/20">
           <MutationList />
         </header>
