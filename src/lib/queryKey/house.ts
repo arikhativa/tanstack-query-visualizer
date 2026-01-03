@@ -23,6 +23,11 @@ const houseData: House[] = Array.from({ length: 50 }, (_, i) => {
     }
   }
 
+  if (i === 0) {
+    console.log("A2");
+    residentIdSet.add("R3");
+  }
+
   return {
     id: `H${i + 1}`,
     address: `${i + 1} Main Street`,
