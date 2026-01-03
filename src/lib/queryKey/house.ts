@@ -7,16 +7,24 @@ export const houseData: House[] = Array.from({ length: 50 }, (_, i) => ({
   residentIdList: [],
 }));
 
+interface Filters {
+  byResidentIdList?: string[];
+}
+
 interface getDataParams {
-  filters?: string;
+  filters?: Filters;
   page?: number;
   limit?: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getData({ filters, page, limit }: getDataParams): House[] {
-  const filtered = houseData;
+  let filtered = houseData;
 
+  if (filters?.byResidentIdList && filters.byResidentIdList.length > 0) {
+    filtered = filtered.filter((house) =>
+      filters.byResidentIdList!.some((id) => house.residentIdList.includes(id))
+    );
+  }
   if (limit && page) {
     const start = page * limit;
     return filtered.slice(start, start + limit);
@@ -33,7 +41,7 @@ export const house = createQueryKeys("house", {
       throw new Error("404");
     },
   }),
-  list: (filters?: string, page?: number, limit?: number) => ({
+  list: (filters?: Filters, page?: number, limit?: number) => ({
     queryKey: [{ filters }, page, limit],
     queryFn: () => getData({ filters, page, limit }),
     contextQueries: {

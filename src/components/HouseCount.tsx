@@ -1,18 +1,18 @@
 import { DataCard } from "./DataCard";
 import { queries } from "@/lib/queryKey";
 import { useQuery } from "@tanstack/react-query";
-import type { House } from "@/lib/types";
 
-function HouseCountComponent(list: House[]) {
-  return <p>{list.length}</p>;
+function HouseCountComponent(count: number) {
+  return <p>{count}</p>;
 }
 
-export function HouseCount() {
-  const queryMeta = queries.house.list();
+export function HouseCount({ className }: { className?: string }) {
+  const queryMeta = queries.house.list()._ctx.count;
   const q = useQuery(queryMeta);
 
   return (
     <DataCard
+      className={className}
       query={q}
       keys={queryMeta.queryKey}
       label={"HouseCount"}

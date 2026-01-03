@@ -3,10 +3,10 @@ import { HouseDetail } from "./HouseDetail";
 
 export function DataList() {
   return (
-    <div className="grid grid-cols-4 gap-4 h-fit">
-      <HouseDetail id={"H1"} />
-      <HouseDetail id={"H2"} />
-      <HouseCount />
+    <div className="flex-1 flex gap-4 h-fit">
+      <HouseDetail className="flex-1" id={"H1"} />
+      <HouseDetail className="flex-1" id={"H2"} />
+      <HouseCount className="flex-1" />
     </div>
   );
 }

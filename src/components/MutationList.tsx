@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { queries } from "@/lib/queryKey";
+import type { TQueryKeys } from "@/lib/types";
+import { toStringTQueryKeys } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 interface SingleMutationProps {
-  queryKey: readonly (string | number)[];
+  queryKey: TQueryKeys;
 }
 
 function SingleMutation({ queryKey }: SingleMutationProps) {
@@ -16,7 +18,7 @@ function SingleMutation({ queryKey }: SingleMutationProps) {
     });
   }, [queryClient]);
 
-  return <Button onClick={onClick}>[{queryKey.join(", ")}]</Button>;
+  return <Button onClick={onClick}>{toStringTQueryKeys(queryKey)}</Button>;
 }
 
 export function MutationList() {
@@ -27,7 +29,7 @@ export function MutationList() {
       <SingleMutation queryKey={queries.house._def} />
       <SingleMutation queryKey={queries.house.detail._def} />
       <SingleMutation queryKey={queries.house.detail("H2").queryKey} />
-      <SingleMutation queryKey={queries.house.list().queryKey} />
+      <SingleMutation queryKey={queries.house.list._def} />
       {/* <Button onClick={houseDetailClick}>[{houseDetail.join(", ")}]</Button> */}
     </>
   );

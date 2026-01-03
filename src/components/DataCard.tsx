@@ -2,17 +2,19 @@ import type { UseQueryResult } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Label } from "./ui/label";
 import { useEffect, useRef, useState, type JSX } from "react";
-import { cn } from "@/lib/utils";
+import { cn, toStringTQueryKeys } from "@/lib/utils";
 import { Separator } from "./ui/separator";
+import type { TQueryKeys } from "@/lib/types";
 
 interface Props<T> {
   query: UseQueryResult<T, Error>;
-  keys: readonly (string | number)[];
+  keys: TQueryKeys;
   label: string;
   comp: (props: T) => JSX.Element;
+  className?: string;
 }
 
-export function DataCard<T>({ keys, label, comp, query }: Props<T>) {
+export function DataCard<T>({ className, keys, label, comp, query }: Props<T>) {
   const dataUpdatedAt = useRef(0);
   const [highlight, setHighlight] = useState(false);
 
@@ -30,12 +32,13 @@ export function DataCard<T>({ keys, label, comp, query }: Props<T>) {
       <Card
         className={cn(
           "transition-colors duration-200",
-          highlight && "bg-primary/10"
+          highlight && "bg-primary/10",
+          className
         )}
       >
         <CardHeader>
           <p>keys:</p>
-          <p>[{keys.join(", ")}]</p>
+          <p>{toStringTQueryKeys(keys)}</p>
         </CardHeader>
         <Separator />
         <CardContent>
