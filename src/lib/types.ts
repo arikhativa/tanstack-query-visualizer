@@ -1,3 +1,6 @@
+import { z } from "zod";
+import type { queryItemSchema } from "@/lib/schemas";
+
 export type TQueryKeys = readonly (
   | string
   | number
@@ -12,7 +15,9 @@ export interface House {
   residentIdList: string[];
 }
 
-export interface QueryItem {
-  queryKey: TQueryKeys;
-  label: string;
-}
+// export interface QueryItem {
+//   queryKey: TQueryKeys;
+//   label: string;
+// }
+
+export type QueryItem = z.infer<typeof queryItemSchema>;
