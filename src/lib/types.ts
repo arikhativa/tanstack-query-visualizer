@@ -11,3 +11,8 @@ export interface House {
   address: string;
   residentIdList: string[];
 }
+
+export interface QueryItem {
+  queryKey: TQueryKeys;
+  label: string;
+}
