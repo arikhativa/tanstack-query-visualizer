@@ -6,12 +6,12 @@ const KEY = "localStorageData" as const;
 
 interface LocalStorageData {
   queryList: Array<QueryItem>;
-  mutationList: Array<object>;
+  mutationList: Array<QueryItem>;
 }
 
 const DEFAULT_VALUE: LocalStorageData = {
   queryList: [{ label: "lead #1", queryKey: ["lead", "detail", "#1"] }],
-  mutationList: [],
+  mutationList: [{ label: "all leads", queryKey: ["lead"] }],
 } as const;
 
 interface StorageContextType {
@@ -24,8 +24,7 @@ const StorageContext = createContext<StorageContextType | undefined>(undefined);
 export function StorageProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<LocalStorageData>(() => {
     const saved = localStorage.getItem(KEY);
-    // return saved ? JSON.parse(saved) : DEFAULT_VALUE;
-    return DEFAULT_VALUE;
+    return saved ? JSON.parse(saved) : DEFAULT_VALUE;
   });
 
   useEffect(() => {

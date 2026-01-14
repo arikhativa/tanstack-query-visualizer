@@ -1,18 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { cn, toStringTQueryKeys } from "@/lib/utils";
-import { Separator } from "./ui/separator";
 import type { QueryItem } from "@/lib/types";
 
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemHeader,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item";
+import { Item, ItemContent, ItemTitle } from "@/components/ui/item";
+import { Separator } from "../ui/separator";
 
 interface Props {
   queryItem: QueryItem;

@@ -1,6 +1,6 @@
 import { useQueryListData } from "@/hooks/useQueryListData";
 import { QuerySheet } from "./QuerySheet";
-import { QueryCard } from "../QueryCard";
+import { QueryCard } from "./QueryCard";
 
 export function QueryList() {
   const queryList = useQueryListData();

@@ -11,7 +11,9 @@ const queryClient = new QueryClient({
       },
     },
     mutations: {
-      // mutation options
+      mutationFn: async () => {
+        return "";
+      },
     },
   },
 });
