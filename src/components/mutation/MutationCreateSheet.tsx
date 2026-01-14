@@ -20,6 +20,8 @@ import { queryItemSchema } from "@/lib/schemas";
 import type { QueryItem } from "@/lib/types";
 import { useForm } from "@tanstack/react-form";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const defaultValues: QueryItem = {
   label: "",
@@ -28,6 +30,7 @@ const defaultValues: QueryItem = {
 
 export function MutationCreateSheet() {
   const { pushItem } = useMutationListData();
+  const [open, setOpen] = useState(false);
 
   const form = useForm({
     defaultValues,
@@ -35,13 +38,14 @@ export function MutationCreateSheet() {
       onSubmit: queryItemSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log("Sub");
       pushItem(value);
+      toast.success("New Mutation Created");
+      setOpen(false);
     },
   });
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger>
         <Plus />
       </SheetTrigger>
@@ -49,14 +53,7 @@ export function MutationCreateSheet() {
         <SheetHeader>
           <SheetTitle>New Mutation</SheetTitle>
         </SheetHeader>
-        <form
-          id="bug-report-form"
-          onSubmit={(e) => {
-            console.log("not");
-            e.preventDefault();
-            // form.handleSubmit();
-          }}
-        >
+        <form>
           <FieldGroup>
             <form.Field
               name="label"
