@@ -9,9 +9,17 @@ interface LocalStorageData {
   mutationList: Array<QueryItem>;
 }
 
-const DEFAULT_VALUE: LocalStorageData = {
-  queryList: [{ label: "lead #1", queryKey: ["lead", "detail", "#1"] }],
-  mutationList: [{ label: "all leads", queryKey: ["lead"] }],
+export const DEFAULT_VALUE: LocalStorageData = {
+  queryList: [
+    {
+      id: crypto.randomUUID(),
+      label: "lead #1",
+      queryKey: ["lead", "detail", "#1"],
+    },
+  ],
+  mutationList: [
+    { id: crypto.randomUUID(), label: "all leads", queryKey: ["lead"] },
+  ],
 } as const;
 
 interface StorageContextType {

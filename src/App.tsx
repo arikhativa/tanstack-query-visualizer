@@ -4,6 +4,7 @@ import { QueryList } from "./components/query/QueryList";
 import { StorageProvider } from "./components/providers/StorageProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Header } from "@/components/Header";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,13 +30,16 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <StorageProvider>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <main className="flex">
-            <Section>
-              <QueryList />
-            </Section>
-            <Section>
-              <MutationList />
-            </Section>
+          <main className="flex flex-col">
+            <Header className="flex p-4" />
+            <div className="flex-1 flex">
+              <Section>
+                <QueryList />
+              </Section>
+              <Section>
+                <MutationList />
+              </Section>
+            </div>
           </main>
           <Toaster position="top-center" />
         </ThemeProvider>

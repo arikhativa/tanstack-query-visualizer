@@ -1,6 +1,5 @@
 import { useMutationListData } from "@/hooks/useMutationListData";
 import { MutationCard } from "./MutationCard";
-import { MutationSheet } from "./MutationSheet";
 import { MutationCreateSheet } from "@/components/mutation/MutationCreateSheet";
 
 export function MutationList() {
@@ -9,11 +8,7 @@ export function MutationList() {
     <>
       <p>MutationList</p>
       {list.map((e) => (
-        <MutationCard
-          key={e.label}
-          // this should use a formArray id
-          queryItem={e}
-        />
+        <MutationCard key={e.id} queryItem={e} />
       ))}
       <MutationCreateSheet />
     </>

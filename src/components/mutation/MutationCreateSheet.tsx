@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 const defaultValues: QueryItem = {
+  id: crypto.randomUUID(),
   label: "",
   queryKey: [],
 } as const;
