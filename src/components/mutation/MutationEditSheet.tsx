@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
   Sheet,
   SheetClose,
   SheetContent,
@@ -16,9 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useMutationListData } from "@/hooks/useMutationListData";
-import { queryItemSchema } from "@/lib/schemas";
 import type { QueryItem } from "@/lib/types";
-import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { useState, useRef } from "react";
 import {
