@@ -11,5 +11,21 @@ export function useMutationListData() {
     }));
   };
 
-  return { list: storage.mutationList, pushItem };
+  const replaceItem = (newItem: QueryItem) => {
+    setStorage((prev) => ({
+      ...prev,
+      mutationList: prev.mutationList.map((item) =>
+        item.id === newItem.id ? newItem : item
+      ),
+    }));
+  };
+
+  const removeItem = (id: string) => {
+    setStorage((prev) => ({
+      ...prev,
+      mutationList: prev.mutationList.filter((item) => item.id !== id),
+    }));
+  };
+
+  return { list: storage.mutationList, pushItem, replaceItem, removeItem };
 }

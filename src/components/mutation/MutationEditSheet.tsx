@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
 import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
   Sheet,
   SheetClose,
   SheetContent,
@@ -9,8 +16,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useMutationListData } from "@/hooks/useMutationListData";
+import { queryItemSchema } from "@/lib/schemas";
 import type { QueryItem } from "@/lib/types";
-import { Plus } from "lucide-react";
+import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { useState, useRef } from "react";
 import {
@@ -18,35 +26,33 @@ import {
   type MutationFormHandle,
 } from "@/components/mutation/MutationForm";
 
-const defaultValues: QueryItem = {
-  id: crypto.randomUUID(),
-  label: "",
-  queryKey: [],
-} as const;
+interface Props {
+  current: QueryItem;
+  children: React.ReactNode;
+}
 
-export function MutationCreateSheet() {
+export function MutationEditSheet({ children, current }: Props) {
   const formRef = useRef<MutationFormHandle>(null);
-  const { pushItem } = useMutationListData();
+
+  const { replaceItem } = useMutationListData();
   const [open, setOpen] = useState(false);
 
   const onSubmit = (value: QueryItem) => {
-    pushItem(value);
-    toast.success("New Mutation Created");
+    replaceItem(value);
+    toast.success("Mutation Saved");
     setOpen(false);
   };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger>
-        <Plus />
-      </SheetTrigger>
+      <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent side={"right"}>
         <SheetHeader>
-          <SheetTitle>New Mutation</SheetTitle>
+          <SheetTitle>Edit Mutation</SheetTitle>
         </SheetHeader>
         <MutationForm
           ref={formRef}
-          defaultValues={defaultValues}
+          defaultValues={current}
           onSubmit={onSubmit}
         />
         <SheetFooter>
