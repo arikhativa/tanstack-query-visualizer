@@ -25,7 +25,7 @@ const DEFAULT_VALUE: LocalStorageData = {
     {
       id: crypto.randomUUID(),
       label: "lead #1",
-      queryKey: ["lead", "detail", "#1"],
+      queryKey: ["lead", "detail", 1],
     },
   ],
   mutationList: [

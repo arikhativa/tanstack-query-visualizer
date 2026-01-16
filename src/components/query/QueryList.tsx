@@ -6,7 +6,6 @@ export function QueryList() {
   const queryList = useQueryListData();
   return (
     <>
-      <p>QueryList</p>
       {queryList.map((e) => (
         <QueryCard
           key={e.label}

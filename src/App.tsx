@@ -5,6 +5,7 @@ import { StorageProvider } from "./components/providers/StorageProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Header } from "@/components/Header";
+import { Separator } from "@/components/ui/separator";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,8 +22,16 @@ const queryClient = new QueryClient({
   },
 });
 
-function Section({ children }: React.ComponentProps<"div">) {
-  return <div className="flex-1">{children}</div>;
+function Section({
+  children,
+  title,
+}: React.ComponentProps<"div"> & { title: string }) {
+  return (
+    <div className="flex-1 flex flex-col items-center justify-start w-full">
+      <h2 className="my-6 text-xl">{title}</h2>
+      {children}
+    </div>
+  );
 }
 
 export function App() {
@@ -30,13 +39,14 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <StorageProvider>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <main className="flex flex-col">
-            <Header className="flex p-4" />
-            <div className="flex-1 flex">
-              <Section>
+          <main className="flex flex-col h-screen w-screen bg-linear-to-r from-blue-900 to-orange-900  ">
+            <Header />
+            <div className="flex-1 flex gap-4">
+              <Section title="Queries">
                 <QueryList />
               </Section>
-              <Section>
+              <Separator className="" orientation="vertical" />
+              <Section title="Mutations">
                 <MutationList />
               </Section>
             </div>
