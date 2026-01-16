@@ -39,8 +39,8 @@ export function MutationCard({ queryItem }: Props) {
       <MutationRemove id={queryItem.id} />
       <Item variant={"outline"} className={"p-0 m-0"}>
         <MutationEditSheet current={queryItem}>
-          <ItemContent className="flex gap-2 h-10 flex-row cursor-pointer p-2">
-            <ItemTitle className="ps-2">{label}</ItemTitle>
+          <ItemContent className="flex gap-2 min-h-10 flex-row cursor-pointer p-2">
+            <ItemTitle>{label}</ItemTitle>
             <Separator orientation={"vertical"} />
             <QueryKeys className="flex-1" list={queryKey} />
           </ItemContent>
@@ -50,13 +50,12 @@ export function MutationCard({ queryItem }: Props) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                className=""
+                className="size-12"
                 variant="outline"
-                size="icon"
                 aria-label="Invalidate"
                 onClick={() => mutation.mutate()}
               >
-                <Radiation />
+                <Radiation className="size-8" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>

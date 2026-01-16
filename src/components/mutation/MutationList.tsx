@@ -6,7 +6,7 @@ export function MutationList() {
   const { list } = useMutationListData();
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 w-full">
         {list.map((e) => (
           <MutationCard key={e.id} queryItem={e} />
         ))}

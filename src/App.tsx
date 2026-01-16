@@ -41,7 +41,7 @@ export function App() {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <main className="flex flex-col h-screen w-screen bg-linear-to-r from-blue-900 to-orange-900  ">
             <Header />
-            <div className="flex-1 flex gap-4">
+            <div className="flex-1 flex gap-4 px-4">
               <Section title="Queries">
                 <QueryList />
               </Section>

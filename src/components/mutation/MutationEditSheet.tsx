@@ -37,7 +37,7 @@ export function MutationEditSheet({ children, current }: Props) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent side={"right"}>
+      <SheetContent className=" bg-background/60" side={"right"}>
         <SheetHeader>
           <SheetTitle>Edit Mutation</SheetTitle>
         </SheetHeader>
