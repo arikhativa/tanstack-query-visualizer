@@ -99,10 +99,10 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
                 <FieldSet className="gap-4">
-                  <FieldLegend variant="label">Query Key</FieldLegend>
+                  <FieldLegend variant="label">Query Keys</FieldLegend>
                   <FieldGroup className="gap-4">
                     {field.state.value.map((_, index) => (
-                      <div key={index} className="flex gap-2">
+                      <div key={index} className="flex items-center gap-2">
                         <form.Field
                           name={`queryKey[${index}].type`}
                           children={(subField) => {
@@ -111,7 +111,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                               !subField.state.meta.isValid;
                             return (
                               <Field
-                                className="w-fit"
+                                className="w-30"
                                 data-invalid={isSubFieldInvalid}
                               >
                                 <Select
@@ -147,6 +147,10 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                         />
 
                         <form.Field
+                          validators={{
+                            // TODO add obj validation here
+                            onChangeListenTo: [`queryKey[${index}].type`],
+                          }}
                           name={`queryKey[${index}].value`}
                           children={(valueField) => {
                             const isValueInvalid =
@@ -179,17 +183,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                                     autoComplete="off"
                                   />
                                   {field.state.value.length > 1 && (
-                                    <InputGroupAddon align="inline-end">
-                                      <InputGroupButton
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-xs"
-                                        onClick={() => field.removeValue(index)}
-                                        aria-label={`Remove key ${index + 1}`}
-                                      >
-                                        <XIcon />
-                                      </InputGroupButton>
-                                    </InputGroupAddon>
+                                    <InputGroupAddon align="inline-end"></InputGroupAddon>
                                   )}
                                 </InputGroup>
                                 {isValueInvalid && (
@@ -201,6 +195,15 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                             );
                           }}
                         />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon-xs"
+                          onClick={() => field.removeValue(index)}
+                          aria-label={`Remove key ${index + 1}`}
+                        >
+                          <XIcon />
+                        </Button>
                       </div>
                     ))}
                     <Button
