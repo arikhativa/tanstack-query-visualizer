@@ -1,17 +1,7 @@
 import { z } from "zod";
 
+import type { queryItemSchema } from "@/lib/schemas";
+
 export type TQueryKeys = (string | number | object | null | undefined)[];
 
-export interface House {
-  id: string;
-  address: string;
-  residentIdList: string[];
-}
-
-export interface QueryItem {
-  id: string;
-  queryKey: TQueryKeys;
-  label: string;
-}
-
-// export type QueryItem = z.infer<typeof queryItemSchema>;
+export type QueryItem = z.infer<typeof queryItemSchema>;

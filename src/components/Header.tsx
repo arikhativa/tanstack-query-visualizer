@@ -1,15 +1,13 @@
-import {
-  DEFAULT_VALUE,
-  useStorage,
-} from "@/components/providers/StorageProvider";
+import { useStorage } from "@/components/providers/StorageProvider";
 import { Button } from "@/components/ui/button";
 
 export function Header({ className }: React.ComponentProps<"header">) {
-  const { setStorage } = useStorage();
+  const { reset, clear } = useStorage();
 
   return (
     <header className={className}>
-      <Button onClick={() => setStorage(DEFAULT_VALUE)}>Reset</Button>
+      <Button onClick={clear}>Clear</Button>
+      <Button onClick={reset}>Reset To Default</Button>
     </header>
   );
 }

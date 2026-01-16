@@ -1,14 +1,13 @@
+import { Plus } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import {
   Field,
-  FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -22,20 +21,14 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import type { QueryItem } from "@/lib/types";
 import { useForm } from "@tanstack/react-form";
 import { forwardRef, useImperativeHandle } from "react";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-
-const typeEnum = {
-  String: "String",
-  Number: "Number",
-  Object: "Object",
-  Null: "Null",
-  Undefined: "Undefined",
-} as const;
+import type { TypeEnum } from "@/lib/enums";
+import type { QueryItem } from "@/lib/types";
+import { queryItemFormSchema } from "@/lib/schemas";
 
 const typeSelect: Array<{ label: TypeEnum; value: TypeEnum }> = [
   { label: "String", value: "String" },
@@ -45,34 +38,7 @@ const typeSelect: Array<{ label: TypeEnum; value: TypeEnum }> = [
   { label: "Undefined", value: "Undefined" },
 ] as const;
 
-export type TypeEnum = (typeof typeEnum)[keyof typeof typeEnum];
-
-const unionSchema = z.union([
-  z.string(),
-  z.number(),
-  z.object(),
-  z.null(),
-  z.undefined(),
-]);
-
-const pairSchema = z.object({
-  type: z.enum(typeEnum),
-  value: unionSchema,
-});
-
-// const outputSchema = z.object({
-//   id: z.uuid(),
-//   label: z.string().min(1),
-//   queryKey: z.array(unionSchema).min(1),
-// });
-
-const formSchema = z.object({
-  id: z.uuid(),
-  label: z.string(),
-  queryKey: z.array(pairSchema),
-});
-
-export type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof queryItemFormSchema>;
 
 export interface MutationFormHandle {
   submit: () => void;
@@ -88,7 +54,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
     const form = useForm({
       defaultValues: queryItemToForm(defaultValues),
       validators: {
-        onSubmit: formSchema,
+        onSubmit: queryItemFormSchema,
         // TODO onBlur
       },
       onSubmit: async ({ value }) => {
@@ -133,63 +99,85 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
                 <FieldSet className="gap-4">
-                  <FieldLegend variant="label">Email Addresses</FieldLegend>
+                  <FieldLegend variant="label">Query Key</FieldLegend>
                   <FieldGroup className="gap-4">
                     {field.state.value.map((_, index) => (
-                      <form.Field
-                        key={index}
-                        name={`queryKey[${index}].type`}
-                        children={(subField) => {
-                          const isSubFieldInvalid =
-                            subField.state.meta.isTouched &&
-                            !subField.state.meta.isValid;
-                          return (
-                            <Field
-                              orientation="horizontal"
-                              data-invalid={isSubFieldInvalid}
-                            >
-                              <FieldContent>
-                                <InputGroup>
-                                  <Select
-                                    name={subField.name}
-                                    value={subField.state.value}
-                                    onValueChange={(v: string) =>
-                                      subField.handleChange(v as TypeEnum)
-                                    }
+                      <div key={index} className="flex gap-2">
+                        <form.Field
+                          name={`queryKey[${index}].type`}
+                          children={(subField) => {
+                            const isSubFieldInvalid =
+                              subField.state.meta.isTouched &&
+                              !subField.state.meta.isValid;
+                            return (
+                              <Field
+                                className="w-fit"
+                                data-invalid={isSubFieldInvalid}
+                              >
+                                <Select
+                                  name={subField.name}
+                                  value={subField.state.value}
+                                  onValueChange={(v: string) =>
+                                    subField.handleChange(v as TypeEnum)
+                                  }
+                                >
+                                  <SelectTrigger
+                                    id={`form-mutation-type-${index}`}
+                                    aria-invalid={isInvalid}
                                   >
-                                    <SelectTrigger
-                                      id="form-tanstack-select-language"
-                                      aria-invalid={isInvalid}
-                                      className="min-w-30"
-                                    >
-                                      <SelectValue placeholder="Select" />
-                                    </SelectTrigger>
-                                    <SelectContent position="item-aligned">
-                                      <SelectItem value="auto">Auto</SelectItem>
-                                      <SelectSeparator />
-                                      {typeSelect.map((e) => (
-                                        <SelectItem
-                                          key={e.value}
-                                          value={e.value}
-                                        >
-                                          {e.label}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                  {/* <InputGroupInput
-                                    id={`form-array-queryKey-${index}`}
-                                    name={subField}
-                                    value={subField.state.value}
-                                    onBlur={subField.handleBlur}
+                                    <SelectValue placeholder="Select" />
+                                  </SelectTrigger>
+                                  <SelectContent position="item-aligned">
+                                    {typeSelect.map((e) => (
+                                      <SelectItem key={e.value} value={e.value}>
+                                        {e.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+
+                                {isSubFieldInvalid && (
+                                  <FieldError
+                                    errors={subField.state.meta.errors}
+                                  />
+                                )}
+                              </Field>
+                            );
+                          }}
+                        />
+
+                        <form.Field
+                          name={`queryKey[${index}].value`}
+                          children={(valueField) => {
+                            const isValueInvalid =
+                              valueField.state.meta.isTouched &&
+                              !valueField.state.meta.isValid;
+                            const currentType = field.state.value[index]?.type;
+                            const isDisabled =
+                              currentType === "Null" ||
+                              currentType === "Undefined";
+
+                            return (
+                              <Field
+                                data-invalid={isValueInvalid}
+                                className="flex-1"
+                              >
+                                <InputGroup>
+                                  <InputGroupInput
+                                    id={`form-mutation-value-${index}`}
+                                    name={valueField.name}
+                                    value={String(valueField.state.value ?? "")}
+                                    onBlur={valueField.handleBlur}
                                     onChange={(e) =>
-                                      subField.handleChange(e.target.value)
+                                      valueField.handleChange(e.target.value)
                                     }
-                                    aria-invalid={isSubFieldInvalid}
-                                    placeholder="name@example.com"
-                                    type="email"
-                                    autoComplete="email"
-                                  /> */}
+                                    aria-invalid={isValueInvalid}
+                                    placeholder={
+                                      isDisabled ? "(no value)" : "Enter value"
+                                    }
+                                    disabled={isDisabled}
+                                    autoComplete="off"
+                                  />
                                   {field.state.value.length > 1 && (
                                     <InputGroupAddon align="inline-end">
                                       <InputGroupButton
@@ -197,34 +185,34 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                                         variant="ghost"
                                         size="icon-xs"
                                         onClick={() => field.removeValue(index)}
-                                        aria-label={`Remove email ${index + 1}`}
+                                        aria-label={`Remove key ${index + 1}`}
                                       >
                                         <XIcon />
                                       </InputGroupButton>
                                     </InputGroupAddon>
                                   )}
                                 </InputGroup>
-                                {isSubFieldInvalid && (
+                                {isValueInvalid && (
                                   <FieldError
-                                    errors={subField.state.meta.errors}
+                                    errors={valueField.state.meta.errors}
                                   />
                                 )}
-                              </FieldContent>
-                            </Field>
-                          );
-                        }}
-                      />
+                              </Field>
+                            );
+                          }}
+                        />
+                      </div>
                     ))}
                     <Button
                       type="button"
                       variant="outline"
-                      size="sm"
+                      size="icon"
                       onClick={() =>
                         field.pushValue({ type: "String", value: "" })
                       }
-                      disabled={field.state.value.length >= 5}
+                      disabled={field.state.value.length >= 10}
                     >
-                      Add Key
+                      <Plus />
                     </Button>
                   </FieldGroup>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
