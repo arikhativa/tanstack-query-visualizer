@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { cn, toStringTQueryKeys } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { QueryItem } from "@/lib/types";
 
 import { Item, ItemContent, ItemTitle } from "@/components/ui/item";
 import { Separator } from "../ui/separator";
+import { QueryKeys } from "@/components/QueryKeys";
 
 interface Props {
   queryItem: QueryItem;
@@ -41,7 +42,7 @@ export function QueryCard({
       <ItemContent className="flex gap-2 flex-row">
         <ItemTitle>{label}</ItemTitle>
         <Separator orientation={"vertical"} />
-        <div className="flex-1">{toStringTQueryKeys(queryKey)}</div>
+        <QueryKeys className="flex-1" list={queryKey} />
       </ItemContent>
     </Item>
   );

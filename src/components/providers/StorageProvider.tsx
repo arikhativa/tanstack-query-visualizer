@@ -29,7 +29,11 @@ const DEFAULT_VALUE: LocalStorageData = {
     },
   ],
   mutationList: [
-    { id: crypto.randomUUID(), label: "all leads", queryKey: ["lead"] },
+    {
+      id: crypto.randomUUID(),
+      label: "all leads",
+      queryKey: ["lead", { name: "mimi" }],
+    },
   ],
 } as const;
 

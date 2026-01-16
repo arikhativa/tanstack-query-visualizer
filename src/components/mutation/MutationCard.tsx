@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toStringTQueryKeys } from "@/lib/utils";
 import type { QueryItem } from "@/lib/types";
 
 import {
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { MutationEditSheet } from "@/components/mutation/MutationEditSheet";
 import { MutationRemove } from "@/components/mutation/MutationRemove";
+import { QueryKeys } from "@/components/QueryKeys";
 
 interface Props {
   queryItem: QueryItem;
@@ -42,9 +42,7 @@ export function MutationCard({ queryItem }: Props) {
           <ItemContent className="flex gap-2 h-10 flex-row cursor-pointer p-2">
             <ItemTitle className="ps-2">{label}</ItemTitle>
             <Separator orientation={"vertical"} />
-            <div className="flex-1 flex justify-start items-center">
-              {toStringTQueryKeys(queryKey)}
-            </div>
+            <QueryKeys className="flex-1" list={queryKey} />
           </ItemContent>
         </MutationEditSheet>
         <Separator orientation={"vertical"} />

@@ -4,7 +4,7 @@ import { z } from "zod";
 const unionSchema = z.union([
   z.string(),
   z.number(),
-  z.object(),
+  z.looseObject({}),
   z.null(),
   z.undefined(),
 ]);
