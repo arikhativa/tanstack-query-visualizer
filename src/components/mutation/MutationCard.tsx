@@ -37,19 +37,22 @@ export function MutationCard({ queryItem }: Props) {
   return (
     <div className="flex items-center gap-4">
       <MutationRemove id={queryItem.id} />
-      <Item variant={"outline"} className={""}>
+      <Item variant={"outline"} className={"p-0 m-0"}>
         <MutationEditSheet current={queryItem}>
-          <ItemContent className="flex gap-2 flex-row cursor-pointer">
-            <ItemTitle>{label}</ItemTitle>
+          <ItemContent className="flex gap-2 h-10 flex-row cursor-pointer p-2">
+            <ItemTitle className="ps-2">{label}</ItemTitle>
             <Separator orientation={"vertical"} />
-            <div className="flex-1">{toStringTQueryKeys(queryKey)}</div>
+            <div className="flex-1 flex justify-start items-center">
+              {toStringTQueryKeys(queryKey)}
+            </div>
           </ItemContent>
         </MutationEditSheet>
         <Separator orientation={"vertical"} />
-        <ItemActions>
+        <ItemActions className="pe-2 py-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
+                className=""
                 variant="outline"
                 size="icon"
                 aria-label="Invalidate"

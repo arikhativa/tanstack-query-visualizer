@@ -7,9 +7,11 @@ export function MutationList() {
   return (
     <>
       <p>MutationList</p>
-      {list.map((e) => (
-        <MutationCard key={e.id} queryItem={e} />
-      ))}
+      <div className="flex flex-col gap-4">
+        {list.map((e) => (
+          <MutationCard key={e.id} queryItem={e} />
+        ))}
+      </div>
       <MutationCreateSheet />
     </>
   );
