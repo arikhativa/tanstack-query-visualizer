@@ -1,7 +1,7 @@
 import { useMutationListData } from "@/hooks/useMutationListData";
 import type { QueryItem } from "@/lib/types";
-import { MutationForm } from "@/components/mutation/MutationForm";
 import { FormSheet } from "@/components/FormSheet";
+import { QueryItemForm } from "@/components/QueryItemForm";
 
 interface Props {
   current: QueryItem;
@@ -16,7 +16,7 @@ export function MutationEditSheet({ children, current }: Props) {
       current={current}
       children={children}
       toastString={"Mutation Saved"}
-      FormComponent={MutationForm}
+      FormComponent={QueryItemForm}
       onSave={replaceItem}
       title="Edit Mutation"
     />

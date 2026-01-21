@@ -39,7 +39,7 @@ const typeSelect: Array<{ label: TypeEnum; value: TypeEnum }> = [
 
 export type FormValues = z.infer<typeof queryItemFormSchema>;
 
-export interface MutationFormHandle {
+export interface QueryItemFormHandle {
   submit: () => void;
 }
 
@@ -48,7 +48,7 @@ interface Props {
   onSubmit: (v: QueryItem) => void;
 }
 
-export const MutationForm = forwardRef<MutationFormHandle, Props>(
+export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
   ({ defaultValues, onSubmit }, ref) => {
     const form = useForm({
       defaultValues: queryItemToForm(defaultValues),
@@ -76,7 +76,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
                 <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Mutation Name</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>QueryItem Name</FieldLabel>
                   <Input
                     id={field.name}
                     name={field.name}
@@ -137,7 +137,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                                   }
                                 >
                                   <SelectTrigger
-                                    id={`form-mutation-type-${index}`}
+                                    id={`form-QueryItem-type-${index}`}
                                     aria-invalid={isInvalid}
                                   >
                                     <SelectValue placeholder="Select" />
@@ -213,7 +213,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                               >
                                 <InputGroup>
                                   <InputGroupInput
-                                    id={`form-mutation-value-${index}`}
+                                    id={`form-QueryItem-value-${index}`}
                                     name={valueField.name}
                                     value={String(valueField.state.value ?? "")}
                                     onBlur={valueField.handleBlur}
@@ -310,4 +310,4 @@ function formToQueryItem(form: FormValues) {
   };
 }
 
-MutationForm.displayName = "MutationForm";
+QueryItemForm.displayName = "QueryItemForm";

@@ -1,9 +1,9 @@
 import { useMutationListData } from "@/hooks/useMutationListData";
 import type { QueryItem } from "@/lib/types";
-import { MutationForm } from "@/components/mutation/MutationForm";
 import { FormSheet } from "@/components/FormSheet";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { QueryItemForm } from "@/components/QueryItemForm";
 
 const defaultValues: QueryItem = {
   id: crypto.randomUUID(),
@@ -18,7 +18,7 @@ export function MutationCreateSheet() {
     <FormSheet
       current={defaultValues}
       toastString={"New Mutation Created"}
-      FormComponent={MutationForm}
+      FormComponent={QueryItemForm}
       onSave={pushItem}
       title="Create Mutation"
     >
