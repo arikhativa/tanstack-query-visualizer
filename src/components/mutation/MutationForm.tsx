@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { useForm } from "@tanstack/react-form";
@@ -100,11 +99,27 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
               return (
                 <FieldSet className="gap-4">
                   <FieldLegend variant="label">Query Keys</FieldLegend>
-                  <FieldGroup className="gap-4">
+                  <FieldGroup className="gap-4 ">
                     {field.state.value.map((_, index) => (
-                      <div key={index} className="flex items-center gap-2">
+                      <div key={index} className="flex gap-2">
                         <form.Field
                           name={`queryKey[${index}].type`}
+                          listeners={{
+                            onChange: ({ value }) => {
+                              if (value === "Null") {
+                                form.setFieldValue(
+                                  `queryKey[${index}].value`,
+                                  "null"
+                                );
+                              }
+                              if (value === "Undefined") {
+                                form.setFieldValue(
+                                  `queryKey[${index}].value`,
+                                  "undefined"
+                                );
+                              }
+                            },
+                          }}
                           children={(subField) => {
                             const isSubFieldInvalid =
                               subField.state.meta.isTouched &&
@@ -148,8 +163,38 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
 
                         <form.Field
                           validators={{
-                            // TODO add obj validation here
                             onChangeListenTo: [`queryKey[${index}].type`],
+                            onChange: ({ value }) => {
+                              const type = form.getFieldValue(
+                                `queryKey[${index}].type`
+                              );
+
+                              if (type === "Number") {
+                                if (value === "" || isNaN(Number(value))) {
+                                  return {
+                                    message: "Value must be a valid number",
+                                  };
+                                }
+                              }
+
+                              if (type === "Object") {
+                                try {
+                                  const parsed = JSON.parse(value as string);
+                                  if (
+                                    typeof parsed !== "object" ||
+                                    parsed === null ||
+                                    Array.isArray(parsed)
+                                  ) {
+                                    return new Error(
+                                      "Value must be a valid JSON object"
+                                    );
+                                  }
+                                } catch (e: any) {
+                                  return e;
+                                }
+                              }
+                              return undefined;
+                            },
                           }}
                           name={`queryKey[${index}].value`}
                           children={(valueField) => {
@@ -176,9 +221,7 @@ export const MutationForm = forwardRef<MutationFormHandle, Props>(
                                       valueField.handleChange(e.target.value)
                                     }
                                     aria-invalid={isValueInvalid}
-                                    placeholder={
-                                      isDisabled ? "(no value)" : "Enter value"
-                                    }
+                                    placeholder={"Enter value"}
                                     disabled={isDisabled}
                                     autoComplete="off"
                                   />
