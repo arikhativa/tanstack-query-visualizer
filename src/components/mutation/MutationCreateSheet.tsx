@@ -1,22 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { useMutationListData } from "@/hooks/useMutationListData";
 import type { QueryItem } from "@/lib/types";
+import { MutationForm } from "@/components/mutation/MutationForm";
+import { FormSheet } from "@/components/FormSheet";
 import { Plus } from "lucide-react";
-import { toast } from "sonner";
-import { useState, useRef } from "react";
-import {
-  MutationForm,
-  type MutationFormHandle,
-} from "@/components/mutation/MutationForm";
+import { Button } from "@/components/ui/button";
 
 const defaultValues: QueryItem = {
   id: crypto.randomUUID(),
@@ -25,39 +12,19 @@ const defaultValues: QueryItem = {
 } as const;
 
 export function MutationCreateSheet() {
-  const formRef = useRef<MutationFormHandle>(null);
   const { pushItem } = useMutationListData();
-  const [open, setOpen] = useState(false);
-
-  const onSubmit = (value: QueryItem) => {
-    pushItem(value);
-    toast.success("New Mutation Created");
-    setOpen(false);
-  };
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger>
-        <Plus />
-      </SheetTrigger>
-      <SheetContent side={"right"}>
-        <SheetHeader>
-          <SheetTitle>New Mutation</SheetTitle>
-        </SheetHeader>
-        <MutationForm
-          ref={formRef}
-          defaultValues={defaultValues}
-          onSubmit={onSubmit}
-        />
-        <SheetFooter>
-          <Button asChild variant={"outline"}>
-            <SheetClose>Cancel</SheetClose>
-          </Button>
-          <Button type="button" onClick={() => formRef.current?.submit()}>
-            Submit
-          </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <FormSheet
+      current={defaultValues}
+      toastString={"New Mutation Created"}
+      FormComponent={MutationForm}
+      onSave={pushItem}
+      title="Create Mutation"
+    >
+      <Button variant={"ghost"} size={"icon-lg"}>
+        <Plus className="size-6" />
+      </Button>
+    </FormSheet>
   );
 }
