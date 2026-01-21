@@ -8,18 +8,18 @@ interface Props {
   children: React.ReactNode;
 }
 
-export function MutationEditSheet({ children, current }: Props) {
+export function QueryEditSheet({ children, current }: Props) {
   const { replaceItem } = useMutationListData();
 
   return (
     <FormSheet
+      side={"left"}
       current={current}
-      side={"right"}
       children={children}
-      toastString={"Mutation Saved"}
+      toastString={"Query Saved"}
       FormComponent={QueryItemForm}
       onSave={replaceItem}
-      title="Edit Mutation"
+      title="Edit Query"
     />
   );
 }

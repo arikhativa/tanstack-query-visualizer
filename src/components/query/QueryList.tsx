@@ -1,19 +1,16 @@
 import { useQueryListData } from "@/hooks/useQueryListData";
-import { QuerySheet } from "./QuerySheet";
 import { QueryCard } from "./QueryCard";
+import { ItemList } from "@/components/ItemList";
+import { QueryCreateSheet } from "@/components/query/QueryCreateSheet";
 
 export function QueryList() {
-  const queryList = useQueryListData();
+  const { list } = useQueryListData();
   return (
-    <>
-      {queryList.map((e) => (
-        <QueryCard
-          key={e.label}
-          // this should use a formArray id
-          queryItem={e}
-        />
+    <ItemList>
+      {list.map((e) => (
+        <QueryCard key={e.id} queryItem={e} />
       ))}
-      <QuerySheet />
-    </>
+      <QueryCreateSheet />
+    </ItemList>
   );
 }

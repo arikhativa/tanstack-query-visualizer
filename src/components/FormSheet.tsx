@@ -17,6 +17,7 @@ interface FormSheetProps<T> {
   FormComponent: ElementType;
   onSave: (value: T) => void;
   title: string;
+  side: React.ComponentProps<typeof SheetContent>["side"];
   toastString: string;
 }
 
@@ -27,6 +28,7 @@ export function FormSheet<T, H>({
   FormComponent,
   onSave,
   title,
+  side,
 }: FormSheetProps<T>) {
   const formRef = useRef<H>(null);
   const [open, setOpen] = useState(false);
@@ -40,15 +42,17 @@ export function FormSheet<T, H>({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="bg-background/60" side="right">
+      <SheetContent className="bg-background/60" side={side}>
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
-        <FormComponent
-          ref={formRef}
-          defaultValues={current}
-          onSubmit={handleSubmit}
-        />
+        <div className="p-4">
+          <FormComponent
+            ref={formRef}
+            defaultValues={current}
+            onSubmit={handleSubmit}
+          />
+        </div>
         <SheetFooter>
           <Button asChild variant="outline">
             <SheetClose>Cancel</SheetClose>

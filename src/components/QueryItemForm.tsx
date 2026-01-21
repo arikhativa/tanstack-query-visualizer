@@ -76,7 +76,7 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
                 <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>QueryItem Name</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
                   <Input
                     id={field.name}
                     name={field.name}
@@ -97,11 +97,11 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
-                <FieldSet className="gap-4">
+                <FieldSet>
                   <FieldLegend variant="label">Query Keys</FieldLegend>
-                  <FieldGroup className="gap-4 ">
+                  <FieldGroup className="flex items-center">
                     {field.state.value.map((_, index) => (
-                      <div key={index} className="flex gap-2">
+                      <div key={index} className="flex gap-2  items-start">
                         <form.Field
                           name={`queryKey[${index}].type`}
                           listeners={{
@@ -240,6 +240,7 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                         />
                         <Button
                           type="button"
+                          className="h-8"
                           variant="ghost"
                           size="icon-xs"
                           onClick={() => field.removeValue(index)}

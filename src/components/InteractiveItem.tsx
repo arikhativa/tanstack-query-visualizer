@@ -8,18 +8,25 @@ import { Button } from "@/components/ui/button";
 interface Props {
   queryItem: QueryItem;
   remove: React.ReactNode;
+  className?: string;
   actions?: React.ReactNode;
   Sheet: React.ComponentType<{ current: QueryItem; children: React.ReactNode }>;
 }
 
-export function InteractiveItem({ Sheet, queryItem, remove, actions }: Props) {
+export function InteractiveItem({
+  Sheet,
+  className,
+  queryItem,
+  remove,
+  actions,
+}: Props) {
   const { queryKey, label } = queryItem;
 
   return (
     <div className="flex items-center gap-4">
       {remove}
       <Sheet current={queryItem}>
-        <Item asChild>
+        <Item asChild className={className}>
           <Button asChild variant={"outline"}>
             <ItemContent className="flex gap-2 min-h-10 flex-row cursor-pointer p-2">
               <ItemTitle>{label}</ItemTitle>
