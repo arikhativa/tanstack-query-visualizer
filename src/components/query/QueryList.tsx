@@ -10,7 +10,7 @@ export function QueryList() {
       {list.map((e) => (
         <QueryCard key={e.id} queryItem={e} />
       ))}
-      <QueryCreateSheet />
+      {list.length < 10 && <QueryCreateSheet />}
     </ItemList>
   );
 }

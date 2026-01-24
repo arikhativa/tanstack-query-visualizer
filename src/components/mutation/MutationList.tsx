@@ -5,12 +5,13 @@ import { ItemList } from "@/components/ItemList";
 
 export function MutationList() {
   const { list } = useMutationListData();
+
   return (
     <ItemList>
       {list.map((e) => (
         <MutationCard key={e.id} queryItem={e} />
       ))}
-      <MutationCreateSheet />
+      {list.length < 10 && <MutationCreateSheet />}
     </ItemList>
   );
 }
