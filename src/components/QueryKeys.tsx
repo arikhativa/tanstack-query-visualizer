@@ -70,7 +70,12 @@ function toStringTQueryKeys(list: QueryItem["queryKey"]) {
 
 export function QueryKeys({ list, className }: Props) {
   return (
-    <div className={cn("flex justify-start items-center gap-1", className)}>
+    <div
+      className={cn(
+        "flex flex-wrap justify-start items-center gap-1",
+        className,
+      )}
+    >
       <span>[</span>
       {toStringTQueryKeys(list).map((el, idx, arr) => (
         <span key={idx}>

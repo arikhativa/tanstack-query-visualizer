@@ -29,10 +29,10 @@ export function InteractiveItem({
       <Sheet current={queryItem}>
         <Button
           variant={"outline"}
-          className={cn("flex-1 flex py-6 px-0", className)}
+          className={cn("flex-1 h-fit flex py-2 px-0", className)}
         >
           <Item>
-            <ItemContent className={"flex gap-4 flex-row"}>
+            <ItemContent className={"flex gap-4 flex-row flex-wrap"}>
               <ItemTitle>{label}</ItemTitle>
               <Separator orientation={"vertical"} />
               <QueryKeys className="flex-1" list={queryKey} />
