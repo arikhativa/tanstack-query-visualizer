@@ -24,15 +24,55 @@ const DEFAULT_VALUE: LocalStorageData = {
   queryList: [
     {
       id: crypto.randomUUID(),
-      label: "lead #1",
-      queryKey: ["lead", "detail", 1],
+      label: "dog #1",
+      queryKey: ["dog", "detail", 1],
+    },
+    {
+      id: crypto.randomUUID(),
+      label: "dog #2",
+      queryKey: ["dog", "detail", 2],
+    },
+    {
+      id: crypto.randomUUID(),
+      label: "dog list page 2",
+      queryKey: ["dog", "list", {}, 2],
+    },
+    {
+      id: crypto.randomUUID(),
+      label: "dog list filters page 0",
+      queryKey: [
+        "dog",
+        "list",
+        { search: "golden", orderBy: { date: "ASC" } },
+        0,
+      ],
     },
   ],
   mutationList: [
     {
       id: crypto.randomUUID(),
-      label: "all leads",
-      queryKey: ["lead", { name: "mimi" }],
+      label: "all dogs",
+      queryKey: ["dog"],
+    },
+    {
+      id: crypto.randomUUID(),
+      label: "all dog lists",
+      queryKey: ["dog", "list"],
+    },
+    {
+      id: crypto.randomUUID(),
+      label: "dog #2",
+      queryKey: ["dog", "detail", 2],
+    },
+    {
+      id: crypto.randomUUID(),
+      label: "specific dog list",
+      queryKey: [
+        "dog",
+        "list",
+        { search: "golden", orderBy: { date: "ASC" } },
+        0,
+      ],
     },
   ],
 } as const;

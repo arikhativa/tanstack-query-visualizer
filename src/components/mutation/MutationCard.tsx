@@ -35,7 +35,7 @@ export function MutationCard({ queryItem }: Props) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              className="size-10 border-primary!"
+              className="size-10 border-primary! border-2"
               variant={"outline"}
               aria-label="Invalidate"
               onClick={() => mutation.mutate()}
