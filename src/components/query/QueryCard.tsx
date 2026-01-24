@@ -29,8 +29,8 @@ export function QueryCard({ queryItem }: Props) {
   return (
     <InteractiveItem
       className={cn(
-        "transition-colors duration-200",
-        highlight && "bg-primary/10"
+        "transition-colors duration-300",
+        highlight && "bg-primary/70!",
       )}
       queryItem={queryItem}
       Sheet={QueryEditSheet}

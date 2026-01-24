@@ -38,7 +38,7 @@ function Section({
   return (
     <div className=" relative flex-1 flex flex-col items-center justify-start w-full">
       {/* BG */}
-      <div className="absolute  top-0 left-0 w-full h-full -z-50 ">
+      <div className="absolute top-0 left-0 w-full h-full -z-50 ">
         <Silk
           speed={speed}
           scale={0.6}
