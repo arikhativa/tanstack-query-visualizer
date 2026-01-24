@@ -32,7 +32,7 @@ export function MutationCard({ queryItem }: Props) {
       Sheet={MutationEditSheet}
       remove={<MutationRemove id={queryItem.id} />}
       actions={
-        <Tooltip>
+        <Tooltip delayDuration={2000}>
           <TooltipTrigger asChild>
             <Button
               className="size-10 border-primary! border-2"

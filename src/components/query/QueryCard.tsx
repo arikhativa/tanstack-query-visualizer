@@ -30,7 +30,7 @@ export function QueryCard({ queryItem }: Props) {
     <InteractiveItem
       className={cn(
         "transition-colors duration-300",
-        highlight && "bg-primary/70!",
+        highlight && "bg-primary/50!",
       )}
       queryItem={queryItem}
       Sheet={QueryEditSheet}

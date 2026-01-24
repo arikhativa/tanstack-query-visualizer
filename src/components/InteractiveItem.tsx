@@ -27,20 +27,18 @@ export function InteractiveItem({
     <div className="flex items-center gap-4 w-full">
       {remove}
       <Sheet current={queryItem}>
-        <Item asChild>
-          <Button asChild variant={"outline"}>
-            <ItemContent
-              className={cn(
-                "flex gap-2 min-h-10 flex-row cursor-pointer p-2",
-                className,
-              )}
-            >
+        <Button
+          variant={"outline"}
+          className={cn("flex-1 flex py-6 px-0", className)}
+        >
+          <Item>
+            <ItemContent className={"flex gap-4 flex-row"}>
               <ItemTitle>{label}</ItemTitle>
               <Separator orientation={"vertical"} />
               <QueryKeys className="flex-1" list={queryKey} />
             </ItemContent>
-          </Button>
-        </Item>
+          </Item>
+        </Button>
       </Sheet>
       {actions}
     </div>

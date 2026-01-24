@@ -28,6 +28,7 @@ import { z } from "zod";
 import type { TypeEnum } from "@/lib/enums";
 import type { QueryItem } from "@/lib/types";
 import { queryItemFormSchema } from "@/lib/schemas";
+import { useRef } from "react";
 
 const typeSelect: Array<{ label: TypeEnum; value: TypeEnum }> = [
   { label: "String", value: "String" },
@@ -62,12 +63,19 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
       },
     });
 
+    const selectRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
     useImperativeHandle(ref, () => ({
       submit: () => form.handleSubmit(),
     }));
 
     return (
-      <form>
+      <form
+        onSubmit={(e) => {
+          // We never use the form onSubmit handler so we want to disable it's auto actions like the "Enter" key interaction.
+          e.preventDefault();
+        }}
+      >
         <FieldGroup>
           <form.Field
             name="label"
@@ -109,13 +117,13 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                               if (value === "Null") {
                                 form.setFieldValue(
                                   `queryKey[${index}].value`,
-                                  "null"
+                                  "null",
                                 );
                               }
                               if (value === "Undefined") {
                                 form.setFieldValue(
                                   `queryKey[${index}].value`,
-                                  "undefined"
+                                  "undefined",
                                 );
                               }
                             },
@@ -139,6 +147,9 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                                   <SelectTrigger
                                     id={`form-QueryItem-type-${index}`}
                                     aria-invalid={isInvalid}
+                                    ref={(el) => {
+                                      selectRefs.current[index] = el;
+                                    }}
                                   >
                                     <SelectValue placeholder="Select" />
                                   </SelectTrigger>
@@ -166,7 +177,7 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                             onChangeListenTo: [`queryKey[${index}].type`],
                             onChange: ({ value }) => {
                               const type = form.getFieldValue(
-                                `queryKey[${index}].type`
+                                `queryKey[${index}].type`,
                               );
 
                               if (type === "Number") {
@@ -186,7 +197,7 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                                     Array.isArray(parsed)
                                   ) {
                                     return new Error(
-                                      "Value must be a valid JSON object"
+                                      "Value must be a valid JSON object",
                                     );
                                   }
                                 } catch (e: any) {
@@ -254,9 +265,13 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
                       type="button"
                       variant="outline"
                       size="icon"
-                      onClick={() =>
-                        field.pushValue({ type: "String", value: "" })
-                      }
+                      onClick={() => {
+                        field.pushValue({ type: "String", value: "" });
+                        setTimeout(() => {
+                          const lastIndex = field.state.value.length;
+                          selectRefs.current[lastIndex - 1]?.focus();
+                        }, 0);
+                      }}
                       disabled={field.state.value.length >= 10}
                     >
                       <Plus />
@@ -270,7 +285,7 @@ export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
         </FieldGroup>
       </form>
     );
-  }
+  },
 );
 
 function queryItemToForm(item: QueryItem): FormValues {

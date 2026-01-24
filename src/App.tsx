@@ -80,7 +80,7 @@ export function App() {
               </Section>
             </div>
           </main>
-          <Toaster position="top-center" />
+          <Toaster position="bottom-center" />
         </ThemeProvider>
       </StorageProvider>
     </QueryClientProvider>

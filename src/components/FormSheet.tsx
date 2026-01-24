@@ -9,12 +9,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
-import { useState, useRef, type ReactNode, type ElementType } from "react";
+import { useState, useRef, type ReactNode, useEffect } from "react";
+
+interface FormProps<T> {
+  ref?: React.Ref<any>;
+  defaultValues?: T;
+  onSubmit: (value: T) => void;
+}
 
 interface FormSheetProps<T> {
   current?: T;
   children: ReactNode;
-  FormComponent: ElementType;
+  FormComponent: React.ComponentType<FormProps<T>>;
   onSave: (value: T) => void;
   title: string;
   side: React.ComponentProps<typeof SheetContent>["side"];
@@ -38,6 +44,17 @@ export function FormSheet<T, H>({
     toast.success(toastString);
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "Enter") {
+        (formRef.current as any)?.submit?.();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
