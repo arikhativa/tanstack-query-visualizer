@@ -23,7 +23,7 @@ export function InteractiveItem({
   const { queryKey, label } = queryItem;
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 w-full">
       {remove}
       <Sheet current={queryItem}>
         <Item asChild className={className}>

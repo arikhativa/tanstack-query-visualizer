@@ -16,7 +16,7 @@ export function QueryRemove({ id }: { id: string }) {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
       aria-label="Remove"
       onClick={() => mutation.mutate()}

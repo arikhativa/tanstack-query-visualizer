@@ -16,7 +16,7 @@ export function MutationRemove({ id }: { id: string }) {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
       aria-label="Remove"
       onClick={() => mutation.mutate()}
