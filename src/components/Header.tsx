@@ -6,7 +6,7 @@ export function Header({ className }: React.ComponentProps<"header">) {
   const { reset, clear } = useStorage();
 
   return (
-    <header className={cn("flex items-center p-4 bg-background/20", className)}>
+    <header className={cn(" border-b flex items-center p-4 ", className)}>
       <div className="flex-1 flex gap-4">
         <Button variant={"secondary"} onClick={clear}>
           Clear

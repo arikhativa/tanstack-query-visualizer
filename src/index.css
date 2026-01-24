@@ -47,7 +47,7 @@
   --card-foreground: oklch(0.985 0.002 247.839);
   --popover: oklch(0.21 0.034 264.665);
   --popover-foreground: oklch(0.985 0.002 247.839);
-  --primary: oklch(0.67 0.26 322);
+  --primary: oklch(0.5044 0.2834 278.08);
   --primary-foreground: oklch(0.98 0.02 320);
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
@@ -130,4 +130,13 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+}
+
+.silk-fade-edges {
+  mask-image: radial-gradient(circle at 50% 50%, black 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    black 70%,
+    transparent 100%
+  );
 }

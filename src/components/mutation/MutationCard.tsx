@@ -35,12 +35,11 @@ export function MutationCard({ queryItem }: Props) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              // className="size-12"
-              variant="outline"
+              className="size-10"
               aria-label="Invalidate"
               onClick={() => mutation.mutate()}
             >
-              <Radiation className="size-7" />
+              <Radiation className="size-6" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
