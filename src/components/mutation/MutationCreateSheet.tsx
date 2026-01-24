@@ -16,6 +16,7 @@ export function MutationCreateSheet() {
 
   return (
     <FormSheet
+      side="right"
       current={defaultValues}
       toastString={"New Mutation Created"}
       FormComponent={QueryItemForm}

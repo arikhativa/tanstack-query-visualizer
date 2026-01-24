@@ -16,7 +16,7 @@ export function Header({ className }: React.ComponentProps<"header">) {
           Reset to default
         </Button>
       </div>
-      <h1 className="flex-1 text-center text-xl">
+      <h1 className="flex-1 text-center  text-2xl">
         <ShinyText
           text="Tanstack Query Visualizer"
           speed={2}

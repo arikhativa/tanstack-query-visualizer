@@ -44,249 +44,250 @@ export interface QueryItemFormHandle {
   submit: () => void;
 }
 
-interface Props {
+export interface QueryItemFormProps {
   defaultValues: QueryItem;
   onSubmit: (v: QueryItem) => void;
 }
 
-export const QueryItemForm = forwardRef<QueryItemFormHandle, Props>(
-  ({ defaultValues, onSubmit }, ref) => {
-    const form = useForm({
-      defaultValues: queryItemToForm(defaultValues),
-      validators: {
-        onSubmit: queryItemFormSchema,
-        // TODO onBlur
-      },
-      onSubmit: async ({ value }) => {
-        const v = formToQueryItem(value);
-        onSubmit(v);
-      },
-    });
+export const QueryItemForm = forwardRef<
+  QueryItemFormHandle,
+  QueryItemFormProps
+>(({ defaultValues, onSubmit }, ref) => {
+  const form = useForm({
+    defaultValues: queryItemToForm(defaultValues),
+    validators: {
+      onSubmit: queryItemFormSchema,
+      // TODO onBlur
+    },
+    onSubmit: async ({ value }) => {
+      const v = formToQueryItem(value);
+      onSubmit(v);
+    },
+  });
 
-    const selectRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const selectRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-    useImperativeHandle(ref, () => ({
-      submit: () => form.handleSubmit(),
-    }));
+  useImperativeHandle(ref, () => ({
+    submit: () => form.handleSubmit(),
+  }));
 
-    return (
-      <form
-        onSubmit={(e) => {
-          // We never use the form onSubmit handler so we want to disable it's auto actions like the "Enter" key interaction.
-          e.preventDefault();
-        }}
-      >
-        <FieldGroup>
-          <form.Field
-            name="label"
-            children={(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    autoComplete="off"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          />
+  return (
+    <form
+      onSubmit={(e) => {
+        // We never use the form onSubmit handler so we want to disable it's auto actions like the "Enter" key interaction.
+        e.preventDefault();
+      }}
+    >
+      <FieldGroup>
+        <form.Field
+          name="label"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
+        />
 
-          <form.Field name="queryKey" mode="array">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-              return (
-                <FieldSet>
-                  <FieldLegend variant="label">Query Keys</FieldLegend>
-                  <FieldGroup className="flex items-center">
-                    {field.state.value.map((_, index) => (
-                      <div key={index} className="flex gap-2  items-start">
-                        <form.Field
-                          name={`queryKey[${index}].type`}
-                          listeners={{
-                            onChange: ({ value }) => {
-                              if (value === "Null") {
-                                form.setFieldValue(
-                                  `queryKey[${index}].value`,
-                                  "null",
-                                );
-                              }
-                              if (value === "Undefined") {
-                                form.setFieldValue(
-                                  `queryKey[${index}].value`,
-                                  "undefined",
-                                );
-                              }
-                            },
-                          }}
-                          children={(subField) => {
-                            const isSubFieldInvalid =
-                              subField.state.meta.isTouched &&
-                              !subField.state.meta.isValid;
-                            return (
-                              <Field
-                                className="w-30"
-                                data-invalid={isSubFieldInvalid}
-                              >
-                                <Select
-                                  name={subField.name}
-                                  value={subField.state.value}
-                                  onValueChange={(v: string) =>
-                                    subField.handleChange(v as TypeEnum)
-                                  }
-                                >
-                                  <SelectTrigger
-                                    id={`form-QueryItem-type-${index}`}
-                                    aria-invalid={isInvalid}
-                                    ref={(el) => {
-                                      selectRefs.current[index] = el;
-                                    }}
-                                  >
-                                    <SelectValue placeholder="Select" />
-                                  </SelectTrigger>
-                                  <SelectContent position="item-aligned">
-                                    {typeSelect.map((e) => (
-                                      <SelectItem key={e.value} value={e.value}>
-                                        {e.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-
-                                {isSubFieldInvalid && (
-                                  <FieldError
-                                    errors={subField.state.meta.errors}
-                                  />
-                                )}
-                              </Field>
-                            );
-                          }}
-                        />
-
-                        <form.Field
-                          validators={{
-                            onChangeListenTo: [`queryKey[${index}].type`],
-                            onChange: ({ value }) => {
-                              const type = form.getFieldValue(
-                                `queryKey[${index}].type`,
+        <form.Field name="queryKey" mode="array">
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid;
+            return (
+              <FieldSet>
+                <FieldLegend variant="label">Query Keys</FieldLegend>
+                <FieldGroup className="flex items-center">
+                  {field.state.value.map((_, index) => (
+                    <div key={index} className="flex gap-2  items-start">
+                      <form.Field
+                        name={`queryKey[${index}].type`}
+                        listeners={{
+                          onChange: ({ value }) => {
+                            if (value === "Null") {
+                              form.setFieldValue(
+                                `queryKey[${index}].value`,
+                                "null",
                               );
-
-                              if (type === "Number") {
-                                if (value === "" || isNaN(Number(value))) {
-                                  return {
-                                    message: "Value must be a valid number",
-                                  };
+                            }
+                            if (value === "Undefined") {
+                              form.setFieldValue(
+                                `queryKey[${index}].value`,
+                                "undefined",
+                              );
+                            }
+                          },
+                        }}
+                        children={(subField) => {
+                          const isSubFieldInvalid =
+                            subField.state.meta.isTouched &&
+                            !subField.state.meta.isValid;
+                          return (
+                            <Field
+                              className="w-30"
+                              data-invalid={isSubFieldInvalid}
+                            >
+                              <Select
+                                name={subField.name}
+                                value={subField.state.value}
+                                onValueChange={(v: string) =>
+                                  subField.handleChange(v as TypeEnum)
                                 }
-                              }
-
-                              if (type === "Object") {
-                                try {
-                                  const parsed = JSON.parse(value as string);
-                                  if (
-                                    typeof parsed !== "object" ||
-                                    parsed === null ||
-                                    Array.isArray(parsed)
-                                  ) {
-                                    return new Error(
-                                      "Value must be a valid JSON object",
-                                    );
-                                  }
-                                } catch (e: any) {
-                                  return e;
-                                }
-                              }
-                              return undefined;
-                            },
-                          }}
-                          name={`queryKey[${index}].value`}
-                          children={(valueField) => {
-                            const isValueInvalid =
-                              valueField.state.meta.isTouched &&
-                              !valueField.state.meta.isValid;
-                            const currentType = field.state.value[index]?.type;
-                            const isDisabled =
-                              currentType === "Null" ||
-                              currentType === "Undefined";
-
-                            return (
-                              <Field
-                                data-invalid={isValueInvalid}
-                                className="flex-1"
                               >
-                                <InputGroup>
-                                  <InputGroupInput
-                                    id={`form-QueryItem-value-${index}`}
-                                    name={valueField.name}
-                                    value={String(valueField.state.value ?? "")}
-                                    onBlur={valueField.handleBlur}
-                                    onChange={(e) =>
-                                      valueField.handleChange(e.target.value)
-                                    }
-                                    aria-invalid={isValueInvalid}
-                                    placeholder={"Enter value"}
-                                    disabled={isDisabled}
-                                    autoComplete="off"
-                                  />
-                                  {field.state.value.length > 1 && (
-                                    <InputGroupAddon align="inline-end"></InputGroupAddon>
-                                  )}
-                                </InputGroup>
-                                {isValueInvalid && (
-                                  <FieldError
-                                    errors={valueField.state.meta.errors}
-                                  />
-                                )}
-                              </Field>
+                                <SelectTrigger
+                                  id={`form-QueryItem-type-${index}`}
+                                  aria-invalid={isInvalid}
+                                  ref={(el) => {
+                                    selectRefs.current[index] = el;
+                                  }}
+                                >
+                                  <SelectValue placeholder="Select" />
+                                </SelectTrigger>
+                                <SelectContent position="item-aligned">
+                                  {typeSelect.map((e) => (
+                                    <SelectItem key={e.value} value={e.value}>
+                                      {e.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+
+                              {isSubFieldInvalid && (
+                                <FieldError
+                                  errors={subField.state.meta.errors}
+                                />
+                              )}
+                            </Field>
+                          );
+                        }}
+                      />
+
+                      <form.Field
+                        validators={{
+                          onChangeListenTo: [`queryKey[${index}].type`],
+                          onChange: ({ value }) => {
+                            const type = form.getFieldValue(
+                              `queryKey[${index}].type`,
                             );
-                          }}
-                        />
-                        <Button
-                          type="button"
-                          className="h-8"
-                          variant="ghost"
-                          size="icon-xs"
-                          onClick={() => field.removeValue(index)}
-                          aria-label={`Remove key ${index + 1}`}
-                        >
-                          <XIcon />
-                        </Button>
-                      </div>
-                    ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => {
-                        field.pushValue({ type: "String", value: "" });
-                        setTimeout(() => {
-                          const lastIndex = field.state.value.length;
-                          selectRefs.current[lastIndex - 1]?.focus();
-                        }, 0);
-                      }}
-                      disabled={field.state.value.length >= 10}
-                    >
-                      <Plus />
-                    </Button>
-                  </FieldGroup>
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </FieldSet>
-              );
-            }}
-          </form.Field>
-        </FieldGroup>
-      </form>
-    );
-  },
-);
+
+                            if (type === "Number") {
+                              if (value === "" || isNaN(Number(value))) {
+                                return {
+                                  message: "Value must be a valid number",
+                                };
+                              }
+                            }
+
+                            if (type === "Object") {
+                              try {
+                                const parsed = JSON.parse(value as string);
+                                if (
+                                  typeof parsed !== "object" ||
+                                  parsed === null ||
+                                  Array.isArray(parsed)
+                                ) {
+                                  return new Error(
+                                    "Value must be a valid JSON object",
+                                  );
+                                }
+                              } catch (e: any) {
+                                return e;
+                              }
+                            }
+                            return undefined;
+                          },
+                        }}
+                        name={`queryKey[${index}].value`}
+                        children={(valueField) => {
+                          const isValueInvalid =
+                            valueField.state.meta.isTouched &&
+                            !valueField.state.meta.isValid;
+                          const currentType = field.state.value[index]?.type;
+                          const isDisabled =
+                            currentType === "Null" ||
+                            currentType === "Undefined";
+
+                          return (
+                            <Field
+                              data-invalid={isValueInvalid}
+                              className="flex-1"
+                            >
+                              <InputGroup>
+                                <InputGroupInput
+                                  id={`form-QueryItem-value-${index}`}
+                                  name={valueField.name}
+                                  value={String(valueField.state.value ?? "")}
+                                  onBlur={valueField.handleBlur}
+                                  onChange={(e) =>
+                                    valueField.handleChange(e.target.value)
+                                  }
+                                  aria-invalid={isValueInvalid}
+                                  placeholder={"Enter value"}
+                                  disabled={isDisabled}
+                                  autoComplete="off"
+                                />
+                                {field.state.value.length > 1 && (
+                                  <InputGroupAddon align="inline-end"></InputGroupAddon>
+                                )}
+                              </InputGroup>
+                              {isValueInvalid && (
+                                <FieldError
+                                  errors={valueField.state.meta.errors}
+                                />
+                              )}
+                            </Field>
+                          );
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        className="h-8"
+                        variant="ghost"
+                        size="icon-xs"
+                        onClick={() => field.removeValue(index)}
+                        aria-label={`Remove key ${index + 1}`}
+                      >
+                        <XIcon />
+                      </Button>
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => {
+                      field.pushValue({ type: "String", value: "" });
+                      setTimeout(() => {
+                        const lastIndex = field.state.value.length;
+                        selectRefs.current[lastIndex - 1]?.focus();
+                      }, 0);
+                    }}
+                    disabled={field.state.value.length >= 10}
+                  >
+                    <Plus />
+                  </Button>
+                </FieldGroup>
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </FieldSet>
+            );
+          }}
+        </form.Field>
+      </FieldGroup>
+    </form>
+  );
+});
 
 function queryItemToForm(item: QueryItem): FormValues {
   return {

@@ -16,6 +16,7 @@ export function QueryCreateSheet() {
 
   return (
     <FormSheet
+      side="left"
       current={defaultValues}
       toastString={"New Query Created"}
       FormComponent={QueryItemForm}

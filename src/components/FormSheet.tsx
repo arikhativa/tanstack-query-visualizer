@@ -3,6 +3,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -13,12 +14,12 @@ import { useState, useRef, type ReactNode, useEffect } from "react";
 
 interface FormProps<T> {
   ref?: React.Ref<any>;
-  defaultValues?: T;
+  defaultValues: T;
   onSubmit: (value: T) => void;
 }
 
 interface FormSheetProps<T> {
-  current?: T;
+  current: T;
   children: ReactNode;
   FormComponent: React.ComponentType<FormProps<T>>;
   onSave: (value: T) => void;
@@ -60,6 +61,9 @@ export function FormSheet<T, H>({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="bg-background/60" side={side}>
+        {/* This is to remove warning */}
+        <SheetDescription className="hidden" />
+
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
